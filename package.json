@@ -1,0 +1,30 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yashfalke77/YelpCamp-Campgrounds.git"
+  },
+  "keywords": [
+    "#yelpCamp",
+    "#yashfalke77",
+    "#campgrounds"
+  ],
+  "author": "Yash Falke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yashfalke77/YelpCamp-Campgrounds/issues"
+  },
+  "homepage": "https://github.com/yashfalke77/YelpCamp-Campgrounds#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.0.5"
+  }
+}
