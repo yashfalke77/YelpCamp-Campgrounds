@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 
 const CampgroundSchema = Schema({
     title: String,
-    price: String,
+    image: String,
+    price: Number,
     description: String,
     location: String,
 });

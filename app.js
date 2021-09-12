@@ -3,11 +3,14 @@ const path = require('path');
 const mongoose = require('mongoose');
 const db = mongoose.connection;
 const methodOverride = require('method-override')
-const Campground = require('./models/campgrounds');
+const Campground = require('./models/campgrounds');  
+const ejsMate = require('ejs-mate');  // Ejs mate is used for more functionality of ejs partials
 
+// Ejs mate is used for more functionality of ejs partials
 
 const app = express();
 
+app.engine('ejs', ejsMate);   //use ejs mate instead of ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
