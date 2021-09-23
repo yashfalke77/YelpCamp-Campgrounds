@@ -1,0 +1,32 @@
+<% layout('layout/boilerplate.ejs') %>
+    <h1>Register</h1>
+
+    <form action="/register" method="POST" class="validated-form" novalidate>
+        <div class="mb-3">
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" name="user[username]" id="username" placeholder="Username" required>
+            <div class="valid-feedback">
+                looks good!
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" type="email" name="user[email]" id="email" placeholder="email" required>
+            <div class="valid-feedback">
+                looks good!
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="Password">Password</label>
+            <input class="form-control" type="password" name="user[password]" id="password" placeholder="Password"
+                required>
+            <div class="valid-feedback">
+                looks good!
+            </div>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-success">Register</button>
+        </div>
+    </form>
+
+    <script src="/js/validateForms.js"></script>
