@@ -5,12 +5,13 @@ const { route } = require('./campground');
 const catchAsync = require('../utils/catchAsync');
 const passport = require('passport');
 const isLoggedIn = require('../middleware')
+const { validateUser } = require('../middleware')
 
 router.get('/register', (req, res) => {
     res.render('users/register')
 })
 
-router.post('/register', catchAsync(async (req, res, next) => {
+router.post('/register', validateUser, catchAsync(async (req, res, next) => {
     try {
         const { email, username, password } = req.body.user
         const user = new User({ email, username });
@@ -32,14 +33,14 @@ router.get('/login', (req, res) => {
     res.render('users/login')
 })
 
-router.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}), (req, res) => {
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     req.flash('success', `Welcome back ${req.body.username}!!`)
     const redirectUrl = req.session.returnTo || '/campgrounds' //redirecting them to their page after login redirect
-    delete req.session.returnTo     
+    delete req.session.returnTo
     res.redirect(redirectUrl)
 })
 
-router.get('/logout', (req,res) => {
+router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success', `Goodbye :(`);
     res.redirect('/campgrounds');

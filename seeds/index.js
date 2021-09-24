@@ -18,6 +18,7 @@ const seeDB = async () => {
         const random400 = Math.floor(Math.random() * 400);
         const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
+            author: '614c08b38126edf1ab09dba2',
             location: `${cities[random400].city}, ${cities[random400].admin_name}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             image: 'https://source.unsplash.com/collection/483251',

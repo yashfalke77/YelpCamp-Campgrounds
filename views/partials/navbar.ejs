@@ -15,8 +15,9 @@
       <div class="navbar-nav ms-auto">
         <% if(!currentUser) { %>
           <a class="nav-link" href="/login">Sign In</a>
-          <a class="nav-link btn btn-primary active ms-3" href="/register" ">Join Free <%= currentUser %>  </a>
+          <a class="nav-link btn btn-primary active" href="/register" ">Join Free</a>
           <% } else { %>
+            <a href="#" class="nav-link active">Hi, <%= currentUser.username %> </a>
             <a class="nav-link btn btn-primary active" href="/logout">Logout</a>
             <% }%>
       </div>
