@@ -1,7 +1,7 @@
 <!-- Nav Bar -->
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/" style='font-family: "Carattere", cursive; font-size: 1.5rem;'>YelpCamp</a>
+    <a class="navbar-brand" href="/"><i class="fas fa-fire-alt" style="color: #e85d04;"></i>  YelpCamp</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -14,10 +14,10 @@
       <div class="navbar-nav ms-auto">
         <% if(!currentUser) { %>
           <a class="nav-link" href="/login">Sign In</a>
-          <a class="nav-link btn btn-primary active" href="/register" ">Join Free</a>
+          <a class="nav-link active btn btn-primary" href="/register" ">Join Free</a>
           <% } else { %>
             <a href="#" class="nav-link active">Hi, <%= currentUser.username %> </a>
-            <a class="nav-link btn btn-primary active" href="/logout">Logout</a>
+            <a class="nav-link active btn btn-primary" href="/logout">Logout</a>
             <% }%>
       </div>
     </div>

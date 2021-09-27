@@ -22,7 +22,10 @@
   },
   "homepage": "https://github.com/yashfalke77/YelpCamp-Campgrounds#readme",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.13.2",
+    "cloudinary": "^1.27.0",
     "connect-flash": "^0.1.1",
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "ejs-mate": "^3.0.0",
     "express": "^4.17.1",
@@ -30,6 +33,9 @@
     "joi": "^17.4.2",
     "method-override": "^3.0.0",
     "mongoose": "^6.0.5",
+    "multer": "^1.4.3",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemon": "^2.0.13",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.1.0"

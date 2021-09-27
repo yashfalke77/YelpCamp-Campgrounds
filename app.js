@@ -1,3 +1,10 @@
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config()
+}
+
+// Here process.env.NODE_ENV is envoirnment variable  and doing it development mode only 
+// Because in production there is diiferent way to do it
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -76,8 +83,6 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     next();
 })
-
-
 
 // _______________________________________________________ ROUTE _____________________________________________________________
 app.get('/', (req, res) => {

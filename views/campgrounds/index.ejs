@@ -1,22 +1,31 @@
 <% layout('layout/boilerplate with footer.ejs') %>
-<h1 class="display-5 text-center mb-4">All Campgrounds</h1>
+    <h1 class="display-5 text-center mb-4">All Campgrounds</h1>
 
     <% for( let campground of campgrounds ) { %>
         <div class="card mb-3">
             <div class="row">
                 <div class="col-md-4">
-                    <img class="img-fluid" src="<%= campground.image %>" alt="">
+                    <% if (campground.image.length) { %>
+                        <img class="img-fluid" src="<%= campground.image[0].index %>" alt="">
+                    <% } else { %>
+                        <img src="/img/Camping Vector Illustration.png" alt="">
+                    <% } %> 
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title"><%= campground.title %></h5>
-                        <p class="card-text"><%= campground.description %> </p>
-                        <p class="card-text"><small class="text-muted"><%= campground.location %></small></p>
-                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">View <%= campground.title %> </a>
+                        <h5 class="card-title">
+                            <%= campground.title %>
+                        </h5>
+                        <p class="card-text">
+                            <%= campground.description %>
+                        </p>
+                        <p class="card-text"><small class="text-muted">
+                                <%= campground.location %>
+                            </small></p>
+                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-dark">View <%= campground.title %>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    <% } %>
-    
-
+        <% } %>
