@@ -1,30 +1,48 @@
-<% layout('layout/boilerplate.ejs') %>
-    <h1>Register</h1>
+<% layout('layout/no container.ejs') %>
+    <main>
+        <div class="main-content container">
+            <div class="logo">
+                <a class="navbar-link" href="/campgrounds" style="color:black;"><i class="fas fa-fire-alt" style="color: #e85d04;"></i>  YelpCamp</a>
+            </div>
+            <div class="signin-name">
+                <h2>Sign Up</h2>
+            </div>
+            <form action="/register" method="POST" class="validated-form" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" type="text" name="user[username]" id="username" placeholder="Username"
+                        required style="width: 80%;">
+                    <div class="valid-feedback">
+                        looks good!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control" type="email" name="user[email]" id="email" placeholder="email" required style="width: 80%;">
+                    <div class="valid-feedback">
+                        looks good!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Password">Password</label>
+                    <input class="form-control" type="password" name="user[password]" id="password"
+                        placeholder="Password" required style="width: 80%;">
+                    <div class="valid-feedback">
+                        looks good!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-dark" type="submit">Sign-up</button>
+                </div>
+            </form>
+            <div class="Sign-up mt-2">
+                <p>
+                    Don't have an account? <a href="/login">Sign-in here</a>
+                </p>
+            </div>
+        </div>
 
-    <form action="/register" method="POST" class="validated-form" novalidate>
-        <div class="mb-3">
-            <label class="form-label" for="username">Username</label>
-            <input class="form-control" type="text" name="user[username]" id="username" placeholder="Username" required>
-            <div class="valid-feedback">
-                looks good!
-            </div>
+        <div class="img">
+            <img src="/img/register.jpg" alt="" />
         </div>
-        <div class="mb-3">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-control" type="email" name="user[email]" id="email" placeholder="email" required>
-            <div class="valid-feedback">
-                looks good!
-            </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="Password">Password</label>
-            <input class="form-control" type="password" name="user[password]" id="password" placeholder="Password"
-                required>
-            <div class="valid-feedback">
-                looks good!
-            </div>
-        </div>
-        <div class="mb-3">
-            <button class="btn btn-dark">Register</button>
-        </div>
-    </form>
+    </main>

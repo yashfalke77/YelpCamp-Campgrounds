@@ -1,23 +1,41 @@
 <% layout('layout/boilerplate.ejs') %>
-    <h1>Login</h1>
+    <div class="card mt-4 mb-4" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="/img/camping-place-cartoon.jpg" class="img-fluid" alt="...">
+            </div>
 
-    <form action="/login" method="POST" class="validated-form" novalidate>
-        <div class="mb-3">
-            <label class="form-label" for="username">Username</label>
-            <input class="form-control" type="text" name="username" id="username" placeholder="Username" required>
-            <div class="valid-feedback">
-                looks good!
+            <div class="col-md-6 mt-3">
+                <div class="container-fluid">
+                    <h2 class="mb-3 d-flex justify-content-center">Sign-in</h2>
+                <form action="/login" method="POST" class="validated-form" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label" for="username">Username</label>
+                        <input class="form-control" type="text" name="username" id="username" placeholder="Username"
+                            required>
+                        <div class="valid-feedback">
+                            looks good!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="Password">Password</label>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password"
+                            required>
+                        <div class="valid-feedback">
+                            looks good!
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <button class="btn btn-dark">Sign in</button>
+                    </div>
+                </form>
+
+                <h4 class="d-flex justify-content-center">Or</h4>
+                <div class="mb-3 d-flex justify-content-center">
+                    <button class="btn btn-primary"><i class="fab fa-google"></i>   Sign-in with Google</button>
+                </div>
+                </div>
             </div>
+            
         </div>
-        <div class="mb-3">
-            <label class="form-label" for="Password">Password</label>
-            <input class="form-control" type="password" name="password" id="password" placeholder="Password"
-                required>
-            <div class="valid-feedback">
-                looks good!
-            </div>
-        </div>
-        <div class="mb-3">
-            <button class="btn btn-dark">Login</button>
-        </div>
-    </form>
+    </div>
