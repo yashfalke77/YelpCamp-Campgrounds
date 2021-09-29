@@ -29,6 +29,10 @@ const { networkInterfaces } = require('os');
 const passport = require('passport');
 const localStrategy = require('passport-local')
 
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
+const mapBoxtoken = process.env.MAPBOX_TOKEN
+const geocoder = mbxGeocoding({ accessToken: mapBoxtoken })
+
 
 // configuring session
 const sessionConfig = {
