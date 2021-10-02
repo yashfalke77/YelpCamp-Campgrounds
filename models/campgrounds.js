@@ -28,6 +28,10 @@ const CampgroundSchema = Schema({
     ],
     price: Number,
     description: String,
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+    },
     location: String,
     geometry: {
         type: {

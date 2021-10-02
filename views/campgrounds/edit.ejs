@@ -34,6 +34,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="mb-3">
+                    <label for="category" class="form-label">Update Category</label>
+                    <select name="campground[category]" id="category">
+                        <% for( let cate of categories ) { %>
+                            <option value="<%= cate._id %>" <%= campground.category.title === cate.title ? 'selected': '' %> ><%= cate.title %></option>
+                        <% } %>
+                    </select>
+                </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
                     <textarea class="form-control" type="text" name="campground[description]" rows="5" id="description"

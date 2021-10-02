@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="formFileSm" class="form-label"><i class="fas fa-camera-retro"></i>  Choose Images</label>
+                    <label for="formFileSm" class="form-label"><i class="fas fa-camera-retro"></i> Choose Images</label>
                     <input class="form-control form-control-sm" id="formFileSm" type="file" name="image" multiple>
                 </div>
                 <div class="mb-3">
@@ -34,6 +34,16 @@
                             looks good!
                         </div>
                     </div>
+                </div>
+                <div class="dropdown mb-3">
+                    <label class="form-label me-3" for="category">Select Category</label>
+                    <select name="campground[category]" id="category">
+                        <option value="" selected>Category</option>
+                        <% for( let category of categories ) { %>
+                            <option value="<%= category._id %>"><%= category.title %> </option>
+                        <% } %>
+                        
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>

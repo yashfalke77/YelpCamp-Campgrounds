@@ -18,6 +18,8 @@ body {
   color: rgba(255, 255, 255, 0.5);
   margin-left: 1rem;
   border-bottom: 0.25rem solid transparent;
+  transition: all 0.5s;
+  transition-timing-function: ease-out;
 }
 
 

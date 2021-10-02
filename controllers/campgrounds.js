@@ -1,5 +1,6 @@
 const ExpressError = require('../utils/ExpressError')
 const Campground = require('../models/campgrounds');
+const Category = require('../models/category');
 const Joi = require('joi')
 const { campgroundSchema } = require('../joiSchemas')
 const { isLoggedIn, isAuthors, validateCampground, } = require('../middleware')
@@ -15,7 +16,8 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.renderNewForm = async (req, res) => {
-    res.render('campgrounds/new')
+    const categories = await Category.find({})
+    res.render('campgrounds/new', {categories})
 }
 
 module.exports.newCampground = async (req, res) => {
@@ -28,14 +30,16 @@ module.exports.newCampground = async (req, res) => {
     campground.image = req.files.map(f => ({ url: f.path, filename: f.filename }))
     campground.author = req.user._id
     await campground.save();
-    console.log(campground);
     req.flash('success', 'Successfully made a new campground')
     res.redirect(`/campgrounds/${campground._id}`);
 }
 
 module.exports.showCampground = async (req, res) => {
     const { id } = req.params
-    const campground = await Campground.findById(id).populate({ path: 'reviews', populate: { path: 'author' } }).populate('author')
+    const campground = await Campground.findById(id)
+    .populate({ path: 'reviews', populate: { path: 'author' } })
+    .populate({ path: 'category', populate: { path: 'title' } })
+    .populate('author')
     if (!campground) {
         req.flash('error', 'Cannot Find that campground')
         res.redirect('/campgrounds')
@@ -44,13 +48,15 @@ module.exports.showCampground = async (req, res) => {
 }
 
 module.exports.renderEditForm = async (req, res) => {
+    const categories = await Category.find({})
     const { id } = req.params
     const campground = await Campground.findById(id)
+    .populate('category')
     if (!campground) {
         req.flash('error', 'Cannot Find that Campground to Edit ')
         res.redirect('/campgrounds')
     }
-    res.render('campgrounds/edit', { campground })
+    res.render('campgrounds/edit', { campground, categories })
 }
 
 module.exports.updateCampground = async (req, res, next) => {

@@ -23,6 +23,7 @@ const app = express();
 const campgroundRoutes = require('./routes/campground')
 const reviewRoutes = require('./routes/reviews')
 const userRoutes = require('./routes/users')
+const categoryRoutes = require('./routes/category')
 const session = require('express-session')
 const flash = require('connect-flash');
 const { networkInterfaces } = require('os');
@@ -98,18 +99,28 @@ app.use('/campgrounds', campgroundRoutes)
 app.use('/campgrounds/:id/reviews', reviewRoutes)
 // --------------------------------------------------- AUTH routes -----------------------------------------------------
 app.use('/', userRoutes)
+// ---------------------------------------------------- category routes -----------------------------------------------
+app.use('/c', categoryRoutes)
+// -------------------------------------------------------- about us -------------------------------------------------------------
+app.get('/about', (req, res) => {
+    res.render('about.ejs')
+})
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page not Found', 404))
 })
 
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err
     if (!err.message) err.message = 'Something went wrong'
-    // req.flash('error', err.message)
-    // res.status(statusCode).redirect('/campgrounds')
-    res.status(statusCode).render('error', { err }); //For development
+    req.flash('error', err.message)
+    const redirectUrl = req.session.returnTo || '/campgrounds' //redirecting them to their page after login redirect
+    delete req.session.returnTo
+    res.status(statusCode).redirect(redirectUrl)
+    // res.status(statusCode).render('error', { err }); //For development
 
 })
 

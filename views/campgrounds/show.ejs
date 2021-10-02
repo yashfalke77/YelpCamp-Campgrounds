@@ -51,10 +51,12 @@
                             <button class="btn btn-danger">Delete Campground</button>
                         </form>
                     </div>
+                    
                     <% } %>
-                        <div class="card-footer text-muted">
-                            2 days ago
-                        </div>
+                    <div class="card-footer text-muted">
+                        Featured in: <%= campground.category.title %>   
+                    </div>
+                        
             </div>
         </div>
 
