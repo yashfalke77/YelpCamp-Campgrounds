@@ -25,7 +25,7 @@ const reviewRoutes = require('./routes/reviews')
 const userRoutes = require('./routes/users')
 const categoryRoutes = require('./routes/category')
 const session = require('express-session')
-const mongoStore = require('connect-mongo') //to store session in cloud : npm i connect-mongo
+// const mongoStore = require('connect-mongo') //to store session in cloud : npm i connect-mongo
 const flash = require('connect-flash');
 const { networkInterfaces } = require('os');
 const passport = require('passport');
@@ -47,17 +47,19 @@ const { validateCampground } = require('./middleware');
 
 // configuring session
 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret'
+// const secret = process.env.SECRET || 'thisshouldbeabettersecret'
 
-const store = mongoStore.create({
-    mongoUrl: dbUrl,
-    secret,
-    touchAfter: 24 * 3600
-})
+// const store = new mongoStore({
+//     mongoUrl: dbUrl,
+//     crypto: {
+//         secret
+//       },
+//     touchAfter: 24 * 3600
+// })
 
-store.on("error", function (e) {
-    console.log(e);
-})
+// store.on("error", function (e) {
+//     console.log(e);
+// })
 const sessionConfig = { 
     name: 'session',  //changing the name of session
     secret,
@@ -69,7 +71,7 @@ const sessionConfig = {
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },
-    store,
+    // store,
 }
 app.use(session(sessionConfig))
 

@@ -14,3 +14,12 @@ If changes are made then follow this process to make changes on heroku
 1) git add .
 2) git commit -m "ready to deploy" 
 3) git push heroku master 
+
+After pushing again it will give error of env
+1) set env through gui 
+2) Or through command: heroku config:set variablename=value
+
+After setting env there will be error of IP address not allowed of heroku 
+1) go on mongo site and allow all ips
+
+After this do: heroku restart
