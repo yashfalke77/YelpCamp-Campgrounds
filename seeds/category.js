@@ -1,8 +1,13 @@
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config()
+}
+
+
 const mongoose = require('mongoose');
 const db = mongoose.connection;
 const Category = require('../models/category')
-
-mongoose.connect('mongodb://localhost:27017/yelp-camp');
+const dbUrl = process.env.DB_URL
+mongoose.connect(dbUrl);
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', () => {
     console.log('Database Connected');
@@ -61,12 +66,12 @@ const categories = [
 
 const insert = async () => {
     const category = new Category({
-        title: 'Glamping Camping',
+        title: 'Backpacking Camping',
         image: {
-            url: 'https://res.cloudinary.com/dhbiouaym/image/upload/v1632977957/YelpCamp/Category/Glamping_vxgov2.jpg',
-            filename: 'Category/Glamping_vxgov2',
+            url: 'https://res.cloudinary.com/dhbiouaym/image/upload/v1632977960/YelpCamp/Category/backpacking_camping_aj2baw.jpg',
+            filename: 'Category/backpacking_camping_aj2baw',
         },
-        description: 'Glamping is also known as glamorous camping and it involves camping with the luxuries of a home or hotel. You are going to find a wide range of glamping accommodations that are available all over the world from staying in a yurt on a mountaintop to enjoying panoramic sceneries in an eco-lodge. Glamping is more than a nice tent as you can find varieties of options that range from cabins, villas, tipis, lodges, and treehouses.'
+        description: 'Backpacking Camping mainly involves spending the day jus carrying your gear and equipment on your back while you travel through nature. A backpacking trip can range from night to several months. Backpacking trip gives you the chance to spend time away from the hustle and bustle of everyday life while you get closer to nature. If you are planning to go on a backpacking trip, you will need to plan your trip while you also inform someone about your plans in case of an emergency. They will help to alert authorities and initiate a search and rescue operation.'
     })
     await category.save()
     console.log(category);

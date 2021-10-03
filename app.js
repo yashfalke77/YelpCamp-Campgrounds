@@ -65,7 +65,7 @@ const sessionConfig = {
     saveUninitialized: true,
     cookie: {
         httpOnly: true,   //for Security can't access cookie through js
-        // secure: true,     // enable https session security but it will affect our develpmemnt server, use while hoisting only
+        secure: true,     // enable https session security but it will affect our develpmemnt server, use while hoisting only
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },

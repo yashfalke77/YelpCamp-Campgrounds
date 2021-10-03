@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config()
+}
+
 const mongoose = require('mongoose');
 const db = mongoose.connection;
 const Campground = require('../models/campgrounds');
@@ -7,12 +11,14 @@ const { places, descriptors } = require('./seedhelpers')
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
 const mapBoxtoken = 'pk.eyJ1IjoieWFzaGZhbGtlNzciLCJhIjoiY2t1MjQ2Z2cwMmxjazJvbXI2OGk5b2V0dSJ9.BGnMIJbpa2OzthfRTtTP6w'
 const geocoder = mbxGeocoding({ accessToken: mapBoxtoken })
-
-mongoose.connect('mongodb://localhost:27017/yelp-camp');
+const dbUrl = process.env.DB_URL
+mongoose.connect(dbUrl);
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', () => {
     console.log('Database Connected');
 });
+
+const user = ["615982985ca687a625b4acec", "6159c8a979bc9b6ee481a9ef", "6159c91a79bc9b6ee481a9fb"]
 
 const sample = array => array[Math.floor(Math.random() * array.length)];
 
@@ -55,12 +61,13 @@ const images = [
 
 
 const seeDB = async () => {
-    await Campground.deleteMany({});
+    // await Campground.deleteMany({});
     const category = await Category.find({})
     for (let index = 0; index < 50; index++) {
         const random400 = Math.floor(Math.random() * 400);
         const randCat = Math.floor(Math.random() * 6)
         const random8 = Math.floor(Math.random() * 8)
+        const random3 = Math.floor(Math.random() * 3 )
         const price = Math.floor(Math.random() * 20) + 10;
         const location = `${cities[random400].city}, ${cities[random400].admin_name}`
         const geodata = await geocoder.forwardGeocode({
@@ -68,7 +75,7 @@ const seeDB = async () => {
             limit: 1
         }).send()
         const camp = new Campground({
-            author: '614c08b38126edf1ab09dba2',
+            author: user[random3],
             location: location,
             geometry: geodata.body.features[0].geometry,
             title: `${sample(descriptors)} ${sample(places)}`,
