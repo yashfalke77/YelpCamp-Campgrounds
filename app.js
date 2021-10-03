@@ -25,6 +25,7 @@ const reviewRoutes = require('./routes/reviews')
 const userRoutes = require('./routes/users')
 const categoryRoutes = require('./routes/category')
 const session = require('express-session')
+const mongoStore = require('connect-mongo') //to store session in cloud : npm i connect-mongo
 const flash = require('connect-flash');
 const { networkInterfaces } = require('os');
 const passport = require('passport');
@@ -34,20 +35,94 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
 const mapBoxtoken = process.env.MAPBOX_TOKEN
 const geocoder = mbxGeocoding({ accessToken: mapBoxtoken })
 
+// const dbUrl = process.env.DB_URL //production
+const dbUrl = 'mongodb://localhost:27017/yelp-camp' //development
+
+// Mongo sql injection
+const mongoSanitize = require('express-mongo-sanitize');
+
+// Helmet.js is a Node.js module that helps in securing HTTP headers. It is implemented in express applications. Therefore, we can say that helmet.js helps in securing express applications
+const helmet = require('helmet');
+const { validateCampground } = require('./middleware');
 
 // configuring session
-const sessionConfig = {
+
+const store = mongoStore.create({
+    mongoUrl: dbUrl,
+    secret: 'thisshouldbeabettersecret',
+    touchAfter: 24 * 3600
+})
+
+store.on("error", function (e) {
+    console.log(e);
+})
+const sessionConfig = { 
+    name: 'session',  //changing the name of session
     secret: 'thisshouldbeabettersecret',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true,   //for Security
+        httpOnly: true,   //for Security can't access cookie through js
+        // secure: true,     // enable https session security but it will affect our develpmemnt server, use while hoisting only
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
-    }
+    },
+    store,
 }
 app.use(session(sessionConfig))
 
+// Helmet : npm i helmet (Makes app more scure)
+app.use(helmet()) //(using these it installs all functions issue with content security policy)
+
+// ---------------------------- Content security ----------------------------------------------------
+// It decides whter what is allowed and what is not 
+// For eg fonts sources, icons sources, image sources what are allowed what are not allowed
+const scriptSrcUrls = [
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
+    // "https://kit.fontawesome.com/",
+    "https://cdn.jsdelivr.net",
+];
+const styleSrcUrls = [
+    // "https://kit-free.fontawesome.com/",
+    "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com",
+    // "https://use.fontawesome.com/",
+    "https://cdn.jsdelivr.net",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/",
+];
+const connectSrcUrls = [
+    "https://api.mapbox.com/",
+    "https://a.tiles.mapbox.com/",
+    "https://b.tiles.mapbox.com/",
+    "https://events.mapbox.com/",
+];
+const fontSrcUrls = [
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/",
+];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/dhbiouaym/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
 
 
 // For Authentication we use: npm i passport passport-local passport-local-mongoose
@@ -65,8 +140,11 @@ app.set('views', path.join(__dirname, 'views'));
 // Configuring static files
 app.use(express.static(path.join(__dirname, '/public')))
 
+// npm i express-mongo-sanitize
+app.use(mongoSanitize())   //it will not allow keywords through query strings or params like $gt
+
 //db connect
-mongoose.connect('mongodb://localhost:27017/yelp-camp');
+mongoose.connect(dbUrl);
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', () => {
     console.log('Database Connected');
@@ -116,12 +194,7 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err
     if (!err.message) err.message = 'Something went wrong'
-    req.flash('error', err.message)
-    const redirectUrl = req.session.returnTo || '/campgrounds' //redirecting them to their page after login redirect
-    delete req.session.returnTo
-    res.status(statusCode).redirect(redirectUrl)
-    // res.status(statusCode).render('error', { err }); //For development
-
+    res.status(statusCode).render('error', { err }); //For development
 })
 
 app.listen('8080', () => {
