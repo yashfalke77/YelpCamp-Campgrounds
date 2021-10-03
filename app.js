@@ -47,7 +47,7 @@ const { validateCampground } = require('./middleware');
 
 // configuring session
 
-// const secret = process.env.SECRET || 'thisshouldbeabettersecret'
+const secret = process.env.SECRET || 'thisshouldbeabettersecret'
 
 // const store = new mongoStore({
 //     mongoUrl: dbUrl,
