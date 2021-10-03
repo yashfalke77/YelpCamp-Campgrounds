@@ -1,0 +1,3 @@
+Login: heroku login
+Create APP: heroku create
+To check git where to push or fetch: git remote -v

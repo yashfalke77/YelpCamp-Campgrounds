@@ -35,8 +35,8 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
 const mapBoxtoken = process.env.MAPBOX_TOKEN
 const geocoder = mbxGeocoding({ accessToken: mapBoxtoken })
 
-// const dbUrl = process.env.DB_URL //production
-const dbUrl = 'mongodb://localhost:27017/yelp-camp' //development
+const dbUrl = process.env.DB_URL //production
+// const dbUrl = 'mongodb://localhost:27017/yelp-camp' //development
 
 // Mongo sql injection
 const mongoSanitize = require('express-mongo-sanitize');
@@ -47,9 +47,11 @@ const { validateCampground } = require('./middleware');
 
 // configuring session
 
+const secret = process.env.SECRET || 'thisshouldbeabettersecret'
+
 const store = mongoStore.create({
     mongoUrl: dbUrl,
-    secret: 'thisshouldbeabettersecret',
+    secret,
     touchAfter: 24 * 3600
 })
 
@@ -58,7 +60,7 @@ store.on("error", function (e) {
 })
 const sessionConfig = { 
     name: 'session',  //changing the name of session
-    secret: 'thisshouldbeabettersecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
