@@ -51,8 +51,10 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret'
 
 const store = new mongoStore({
     mongoUrl: dbUrl,
-    secret,
-    // touchAfter: 24 * 3600
+    crypto: {
+        secret
+      },
+    touchAfter: 24 * 3600
 })
 
 
