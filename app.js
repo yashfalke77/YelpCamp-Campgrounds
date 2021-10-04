@@ -30,26 +30,41 @@ const flash = require('connect-flash');
 const { networkInterfaces } = require('os');
 const passport = require('passport');
 const localStrategy = require('passport-local')
-
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
 const mapBoxtoken = process.env.MAPBOX_TOKEN
 const geocoder = mbxGeocoding({ accessToken: mapBoxtoken })
-
-const dbUrl = process.env.DB_URL //production
-// const dbUrl = 'mongodb://localhost:27017/yelp-camp' //development
-
 // Mongo sql injection
 const mongoSanitize = require('express-mongo-sanitize');
-
 // Helmet.js is a Node.js module that helps in securing HTTP headers. It is implemented in express applications. Therefore, we can say that helmet.js helps in securing express applications
 const helmet = require('helmet');
-const { validateCampground } = require('./middleware');
+
+// npm i express-mongo-sanitize
+app.use(mongoSanitize())   //it will not allow keywords through query strings or params like $gt
+
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
+
+//db connect
+mongoose.connect(dbUrl);
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', () => {
+    console.log('Database Connected');
+});
+
+app.engine('ejs', ejsMate);   //use ejs mate instead of ejs
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+//post request settings
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+
+// Configuring static files
+app.use(express.static(path.join(__dirname, '/public')))
 
 // configuring session
-
 const secret = process.env.SECRET || 'thisshouldbeabettersecret'
 
-const store = new mongoStore({
+const store = mongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
         secret,
@@ -57,6 +72,9 @@ const store = new mongoStore({
     touchAfter: 24 * 3600
 })
 
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
 
 const sessionConfig = { 
     name: 'session',  //changing the name of session
@@ -65,27 +83,17 @@ const sessionConfig = {
     saveUninitialized: true,
     cookie: {
         httpOnly: true,   //for Security can't access cookie through js
-        secure: true,     // enable https session security but it will affect our develpmemnt server, use while hoisting only
+        // secure: true,     // enable https session security but it will affect our develpmemnt server, use while hoisting only
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },
     store,
 }
+
 app.use(session(sessionConfig))
 
+//Setting flash
 app.use(flash())
-
-app.use((req, res, next) => {
-    if (!['/login', '/'].includes(req.originalUrl)) {
-        req.session.returnTo = req.originalUrl
-    }
-    res.locals.currentUser = req.user;
-    console.log(currentUser, req.user);
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-})
-
 
 // Helmet : npm i helmet (Makes app more scure)
 app.use(helmet()) //(using these it installs all functions issue with content security policy)
@@ -140,7 +148,6 @@ app.use(
     })
 );
 
-
 // For Authentication we use: npm i passport passport-local passport-local-mongoose
 app.use(passport.initialize())
 app.use(passport.session())  //always passport.session must be after session
@@ -149,28 +156,16 @@ passport.use(new localStrategy(User.authenticate()))  //use the local startegy w
 passport.serializeUser(User.serializeUser()) //how to store it
 passport.deserializeUser(User.deserializeUser()) // how to unstore it in sesion
 
-app.engine('ejs', ejsMate);   //use ejs mate instead of ejs
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
-// Configuring static files
-app.use(express.static(path.join(__dirname, '/public')))
-
-// npm i express-mongo-sanitize
-app.use(mongoSanitize())   //it will not allow keywords through query strings or params like $gt
-
-//db connect
-mongoose.connect(dbUrl);
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', () => {
-    console.log('Database Connected');
-});
-
-//post request settings
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
-
-//Setting flash
+app.use((req, res, next) => {
+    if (!['/login', '/'].includes(req.originalUrl)) {
+        req.session.returnTo = req.originalUrl
+    }
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 
 // _______________________________________________________ ROUTE _____________________________________________________________
