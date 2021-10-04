@@ -49,13 +49,13 @@ const { validateCampground } = require('./middleware');
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret'
 
-const store = new mongoStore({
-    mongoUrl: dbUrl,
-    crypto: {
-        secret
-      },
-    touchAfter: 24 * 3600
-})
+// const store = new mongoStore({
+//     mongoUrl: dbUrl,
+//     crypto: {
+//         secret
+//       },
+//     touchAfter: 24 * 3600
+// })
 
 
 const sessionConfig = { 
@@ -69,7 +69,7 @@ const sessionConfig = {
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },
-    store,
+    // store,
 }
 app.use(session(sessionConfig))
 
