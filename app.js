@@ -49,9 +49,11 @@ const { validateCampground } = require('./middleware');
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret'
 
-const store = new mongoStore({
+const store = mongoStore.create({
     mongoUrl: dbUrl,
-    secret,
+    crypto: {
+        secret,
+    },
     touchAfter: 24 * 3600
 })
 
