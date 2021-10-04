@@ -35,8 +35,8 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
 const mapBoxtoken = process.env.MAPBOX_TOKEN
 const geocoder = mbxGeocoding({ accessToken: mapBoxtoken })
 
-// const dbUrl = process.env.DB_URL //production
-const dbUrl = 'mongodb://localhost:27017/yelp-camp' //development
+const dbUrl = process.env.DB_URL //production
+// const dbUrl = 'mongodb://localhost:27017/yelp-camp' //development
 
 // Mongo sql injection
 const mongoSanitize = require('express-mongo-sanitize');
