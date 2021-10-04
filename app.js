@@ -35,8 +35,8 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
 const mapBoxtoken = process.env.MAPBOX_TOKEN
 const geocoder = mbxGeocoding({ accessToken: mapBoxtoken })
 
-const dbUrl = process.env.DB_URL //production
-// const dbUrl = 'mongodb://localhost:27017/yelp-camp' //development
+// const dbUrl = process.env.DB_URL //production
+const dbUrl = 'mongodb://localhost:27017/yelp-camp' //development
 
 // Mongo sql injection
 const mongoSanitize = require('express-mongo-sanitize');
@@ -184,6 +184,12 @@ app.use('/c', categoryRoutes)
 // -------------------------------------------------------- about us -------------------------------------------------------------
 app.get('/about', (req, res) => {
     res.render('about.ejs')
+})
+
+app.get('/results', async(req, res) =>{
+    const {search_query} = req.query
+    const campgrounds = await Campground.find( {title: {$regex: search_query, $options: "i"} })
+    res.render('search.ejs', {campgrounds, search_query})
 })
 
 

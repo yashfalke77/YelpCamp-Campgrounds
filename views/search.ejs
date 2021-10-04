@@ -1,14 +1,10 @@
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+<% layout('layout/boilerplate.ejs') %>
 
-<% layout('layout/boilerplate with footer.ejs') %>
 
-    <div id="map" class="mb-4" style="width: 100%; height: 500px;"></div>
-
-    <h1 class="display-6 text-center mb-4">Search and View Our Campgrounds</h1>
+    <h1 class="display-6 mb-4">Search Results For: <%= search_query %></h1>
 
     <form action="/results/?" class="d-flex mb-5">
-        <input class="form-control me-2" type="search" placeholder="Search Your Campgrounds ...." name="search_query" aria-label="Search">
+        <input class="form-control me-2" type="search" placeholder="Search Your Campgrounds ...." name="search_query" aria-label="Search" value="<%= search_query %>">
         <button class="btn btn-outline-dark" type="submit">Search</button>
       </form>
         
@@ -40,10 +36,4 @@
             </div>
         </div>
         <% } %>
-            <script>
-                const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
-                const campgrounds = <%- JSON.stringify(campgrounds) %> 
-            </script>
-            <script src="/js/clusterMap.js"></script>
-
 
