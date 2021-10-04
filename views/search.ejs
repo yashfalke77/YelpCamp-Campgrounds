@@ -1,39 +1,45 @@
 <% layout('layout/boilerplate.ejs') %>
 
 
-    <h1 class="display-6 mb-4">Search Results For: <%= search_query %></h1>
+    <h1 class="mb-3"><%= search_query %>
+    </h1>
 
-    <form action="/results/?" class="d-flex mb-5">
-        <input class="form-control me-2" type="search" placeholder="Search Your Campgrounds ...." name="search_query" aria-label="Search" value="<%= search_query %>">
+    <form action="/results/?" class="d-flex mb-3">
+        <input class="form-control me-2" type="search" placeholder="Search Your Campgrounds ...." name="search_query"
+            aria-label="Search" value="<%= search_query %>">
         <button class="btn btn-outline-dark" type="submit">Search</button>
-      </form>
-        
-    <% for( let campground of campgrounds ) { %>
-        <div class="card mb-3">
-            <div class="row">
-                <div class="col-md-4">
-                    <% if (campground.image.length) { %>
-                        <img class="img-fluid" src="<%= campground.image[0].index %>" alt="">
-                        <% } else { %>
-                            <img src="/img/Camping Vector Illustration.png" alt="">
-                            <% } %>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <%= campground.title %>
-                        </h5>
-                        <p class="card-text">
-                            <%= campground.description %>
-                        </p>
-                        <p class="card-text"><small class="text-muted">
-                                <%= campground.location %>
-                            </small></p>
-                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-dark">View <%= campground.title %>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </form>
+
+    <% if (campgrounds.length===0) { %>
+        <img class="img-fluid d-flex" style="opacity: 0.3;" src="/img/nothing_here_yet.png" alt="">
         <% } %>
 
+            <% for( let campground of campgrounds ) { %>
+                <div class="card mb-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <% if (campground.image.length) { %>
+                                <img class="img-fluid" src="<%= campground.image[0].index %>" alt="">
+                                <% } else { %>
+                                    <img src="/img/Camping Vector Illustration.png" alt="">
+                                    <% } %>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= campground.title %>
+                                </h5>
+                                <p class="card-text">
+                                    <%= campground.description %>
+                                </p>
+                                <p class="card-text"><small class="text-muted">
+                                        <%= campground.location %>
+                                    </small></p>
+                                <a href="/campgrounds/<%= campground._id %>" class="btn btn-dark">View <%=
+                                        campground.title %>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
