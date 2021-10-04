@@ -73,6 +73,20 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig))
 
+app.use(flash())
+
+app.use((req, res, next) => {
+    if (!['/login', '/'].includes(req.originalUrl)) {
+        req.session.returnTo = req.originalUrl
+    }
+    res.locals.currentUser = req.user;
+    console.log(currentUser, req.user);
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
+
 // Helmet : npm i helmet (Makes app more scure)
 app.use(helmet()) //(using these it installs all functions issue with content security policy)
 
@@ -157,18 +171,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 //Setting flash
-app.use(flash())
 
-app.use((req, res, next) => {
-    if (!['/login', '/'].includes(req.originalUrl)) {
-        req.session.returnTo = req.originalUrl
-    }
-    res.locals.currentUser = req.user;
-    console.log(currentUser, req.user);
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-})
 
 // _______________________________________________________ ROUTE _____________________________________________________________
 app.get('/', (req, res) => {

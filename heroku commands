@@ -23,3 +23,5 @@ After setting env there will be error of IP address not allowed of heroku
 1) go on mongo site and allow all ips
 
 After this do: heroku restart
+
+LOgs: heroku logs --tail
