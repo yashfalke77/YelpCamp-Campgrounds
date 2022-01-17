@@ -25,3 +25,6 @@ After setting env there will be error of IP address not allowed of heroku
 After this do: heroku restart
 
 LOgs: heroku logs --tail
+
+Remove previous git: git remote rm heroku
+add current git: git remote add heroku "url"
