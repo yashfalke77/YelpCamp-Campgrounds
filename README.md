@@ -22,8 +22,7 @@ Yelp Camp is a web application that allows you to view campgrounds with a short 
 ### Project Images
 
 Home Page
-<img src="./project images/home.png" alt="Logo" >
-<img src="./project images/home1.png" alt="Logo" >
+<img src="./screenshots/sign_up.png" alt="Logo" >
 
 Particular Pizza
 <img src="./project images/particular pizza.png" alt="Logo" >
